@@ -6,6 +6,16 @@ from serpapi import GoogleSearch  # <── change this line
 st.set_page_config(page_title="URL Index Checker", layout="centered")
 st.title("🔍 Google Index Checker")
 
+st.title("🔍 Google Index Checker")
+
+st.markdown("""
+### Steps to Find API Key:
+1. Visit [Serp API](https://www.searchapi.io/)
+2. Sign Up to Get Free 100 Requests  
+3. Dashboard will appear  
+4. Copy the API Key and Paste in the dialog box below  
+""")
+
 # Input for API key
 api_key = st.text_input("Enter your SerpAPI Key", type="password")
 
@@ -62,4 +72,5 @@ if st.button("Check Indexing Status"):
             file_name="indexing_results.csv",
             mime="text/csv"
         )
+
 
