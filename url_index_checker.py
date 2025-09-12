@@ -6,8 +6,6 @@ from serpapi import GoogleSearch  # <── change this line
 st.set_page_config(page_title="URL Index Checker", layout="centered")
 st.title("🔍 Google Index Checker")
 
-st.title("🔍 Google Index Checker")
-
 st.markdown("""
 ### Steps to Find API Key:
 1. Visit [Serp API](https://www.searchapi.io/)
@@ -72,5 +70,6 @@ if st.button("Check Indexing Status"):
             file_name="indexing_results.csv",
             mime="text/csv"
         )
+
 
 
