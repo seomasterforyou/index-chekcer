@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
-from google_search_results import GoogleSearch  # pip install google-search-results
+from serpapi import GoogleSearch  # <── change this line
 
 st.set_page_config(page_title="URL Index Checker", layout="centered")
 st.title("🔍 Google Index Checker")
@@ -62,3 +62,4 @@ if st.button("Check Indexing Status"):
             file_name="indexing_results.csv",
             mime="text/csv"
         )
+
