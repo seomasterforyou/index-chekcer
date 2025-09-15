@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
-from serpapi import GoogleSearch  # <── make sure this library is installed
+from serpapi import GoogleSearch  # pip install google-search-results
 
 st.set_page_config(page_title="URL Index Checker", layout="centered")
 st.title("🔍 Google Index Checker")
@@ -64,23 +64,33 @@ if st.button("Check Indexing Status"):
         # Dropdown filter
         filter_option = st.selectbox(
             "Select which URLs to view:",
-            ["All URLs", "Indexed URLs", "Not Indexed URLs"]
+            ["Indexed URLs", "Not Indexed URLs", "View All URLs"]
         )
 
+        total_urls = len(df)
+
         if filter_option == "Indexed URLs":
-            filtered_df = df[df["Status"] == "✅ Indexed"]
+            filtered_df = df[df['Status'] == "✅ Indexed"]
+            count = len(filtered_df)
+            st.write(f"**{count} of {total_urls} URLs are Indexed.**")
+
         elif filter_option == "Not Indexed URLs":
-            filtered_df = df[df["Status"] == "❌ Not Indexed"]
-        else:
-            filtered_df = df  # all
+            filtered_df = df[df['Status'] == "❌ Not Indexed"]
+            count = len(filtered_df)
+            st.write(f"**{count} of {total_urls} URLs are Not Indexed.**")
+
+        else:  # View All
+            filtered_df = df
+            count = len(filtered_df)
+            st.write(f"**{count} of {total_urls} URLs (All).**")
 
         st.dataframe(filtered_df)
 
-        # Download button for filtered view
+        # Download button
         csv = filtered_df.to_csv(index=False)
         st.download_button(
-            label=f"Download {filter_option} as CSV",
+            label="Download Filtered Results as CSV",
             data=csv,
-            file_name=f"{filter_option.replace(' ','_').lower()}.csv",
+            file_name="indexing_results.csv",
             mime="text/csv"
         )
