@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
-from serpapi import GoogleSearch  # <── change this line
+from serpapi import GoogleSearch  # <── make sure this library is installed
 
 st.set_page_config(page_title="URL Index Checker", layout="centered")
 st.title("🔍 Google Index Checker")
@@ -60,16 +60,27 @@ if st.button("Check Indexing Status"):
         df = pd.DataFrame(results_list)
 
         st.subheader("Results")
-        st.dataframe(df)
 
-        # Download button
-        csv = df.to_csv(index=False)
-        st.download_button(
-            label="Download Results as CSV",
-            data=csv,
-            file_name="indexing_results.csv",
-            mime="text/csv"
+        # Dropdown filter
+        filter_option = st.selectbox(
+            "Select which URLs to view:",
+            ["All URLs", "Indexed URLs", "Not Indexed URLs"]
         )
 
+        if filter_option == "Indexed URLs":
+            filtered_df = df[df["Status"] == "✅ Indexed"]
+        elif filter_option == "Not Indexed URLs":
+            filtered_df = df[df["Status"] == "❌ Not Indexed"]
+        else:
+            filtered_df = df  # all
 
+        st.dataframe(filtered_df)
 
+        # Download button for filtered view
+        csv = filtered_df.to_csv(index=False)
+        st.download_button(
+            label=f"Download {filter_option} as CSV",
+            data=csv,
+            file_name=f"{filter_option.replace(' ','_').lower()}.csv",
+            mime="text/csv"
+        )
