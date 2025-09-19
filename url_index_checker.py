@@ -49,9 +49,9 @@ if st.button("Check Indexing Status"):
                 results = response.json()
 
                 if results.get("organic_results"):
-                    status = "✅ Indexed"
+                    status = "Indexed"
                 else:
-                    status = "❌ Not Indexed"
+                    status = "Not Indexed"
             except Exception as e:
                 status = f"⚠️ Error: {e}"
 
@@ -82,3 +82,4 @@ if st.button("Check Indexing Status"):
             file_name="indexing_results.csv",
             mime="text/csv"
         )
+
