@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import time
-from serpapi import GoogleSearch  # <── change this line
+import requests  # <── changed here, no serpapi needed
 
 # Set page configuration
 st.set_page_config(page_title="URL Index Checker", layout="centered")
@@ -17,14 +17,14 @@ st.markdown("""
 """)
 
 # Input for API key
-api_key = st.text_input("Enter your SerpAPI Key", type="password")
+api_key = st.text_input("Enter your SearchAPI.io Key", type="password")
 
 # Textarea for URLs
 urls_input = st.text_area("Paste URLs (one per line):")
 
 if st.button("Check Indexing Status"):
     if not api_key:
-        st.error("Please enter your SerpAPI Key.")
+        st.error("Please enter your API Key.")
     elif not urls_input.strip():
         st.error("Please paste at least one URL.")
     else:
@@ -44,9 +44,9 @@ if st.button("Check Indexing Status"):
             }
 
             try:
-                # Query SerpAPI
-                search = GoogleSearch(params)
-                results = search.get_dict()
+                # Query SearchAPI.io
+                response = requests.get("https://www.searchapi.io/api/v1/search", params=params)
+                results = response.json()
 
                 if results.get("organic_results"):
                     status = "✅ Indexed"
@@ -69,7 +69,7 @@ if st.button("Check Indexing Status"):
 
         # Convert results to DataFrame for display
         df = pd.DataFrame(results_list)
-        
+
         # Show results in the Streamlit app
         st.subheader("Results")
         st.dataframe(df)
